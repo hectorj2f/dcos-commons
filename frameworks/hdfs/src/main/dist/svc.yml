@@ -153,6 +153,11 @@ pods:
         cmd: >
               export JAVA_HOME=$(ls -d $MESOS_SANDBOX/jre*/) ;
               mv hdfs {{HDFS_VERSION}}/bin/ ;
+              if [[ $POD_INSTANCE_INDEX -eq 0 ]]; then
+                export OTHER_NN_INDEX=1
+              else
+                export OTHER_NN_INDEX=0
+              fi &&
               ./bootstrap && ./{{HDFS_VERSION}}/bin/hdfs namenode
         resource-set: name-resources
         readiness-check:
